@@ -6,6 +6,7 @@ import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 
 import androidx.core.view.ScrollingView;
 import androidx.viewpager.widget.ViewPager;
@@ -42,6 +43,14 @@ public class ViewHelper {
     }
 
     private static boolean canScroll(View mView, SlidrPosition direction) {
+        if (mView instanceof SeekBar) {
+            switch (direction) {
+                case LEFT:
+                case RIGHT:
+                case HORIZONTAL:
+                    return mView.isEnabled();
+            }
+        }
         switch (direction) {
             case LEFT:
                 return mView.canScrollHorizontally(-1);
@@ -65,7 +74,8 @@ public class ViewHelper {
                 || mView instanceof AbsListView
                 || mView instanceof ScrollingView
                 || mView instanceof ViewPager
-                || mView instanceof WebView;
+                || mView instanceof WebView
+                || mView instanceof SeekBar;
     }
 
     private static boolean isViewUnder(View view, int x, int y) {
